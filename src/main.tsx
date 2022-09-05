@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';
 import store from './state/store';
+import './assets/styles/global.css';
 
 function AppWrapper() {
   return (
