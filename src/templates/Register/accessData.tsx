@@ -1,18 +1,24 @@
 import { FieldValues, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Stack } from '@chakra-ui/react';
 import { Button } from 'components/commons/form/Button';
 import { Input } from 'components/commons/form/Input';
 import { Text } from 'components/commons/typography/Text';
 import { InputPassword } from 'components/commons/form/InputPassword';
-import { useNavigate } from 'react-router-dom';
+import { useToast } from 'hooks/useToast';
 
 export function AccessData() {
   const { handleSubmit, register } = useForm();
+  const toast = useToast();
   const navigate = useNavigate();
 
   const onSubmit = (data: FieldValues) => {
     console.log(data);
 
+    toast({
+      title: 'Cadastro realizado com sucesso.',
+      status: 'success',
+    });
     navigate('/login');
   };
 

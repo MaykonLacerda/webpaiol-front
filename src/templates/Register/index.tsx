@@ -1,5 +1,7 @@
-import { Heading, Text, Flex } from '@chakra-ui/react';
 import { Box } from 'components/commons/layout/Box';
+import { Flex } from 'components/commons/layout/Flex';
+import { Text } from 'components/commons/typography/Text';
+import { Title } from 'components/commons/typography/Title';
 import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AccessData } from './accessData';
@@ -27,9 +29,9 @@ export function RegisterTemplate() {
   return (
     <Flex direction="column" align="center" justify="space-between" w="100%">
       <Box>
-        <Heading color="orange.500" size="md" mx="auto" mb="8">
+        <Title mb="4">
           {literalTitles[step]}
-        </Heading>
+        </Title>
       </Box>
       <Box w="100%">
         {literalSteps[step]}
