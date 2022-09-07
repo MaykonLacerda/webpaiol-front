@@ -42,7 +42,7 @@ export function RegisterTemplate() {
             Já possui uma conta?
           </Text>
           <Text cursor="pointer" mx="auto" fontWeight="bold" color="orange.500" onClick={() => navigate('/login')}>
-            Faça login
+            Fazer login
           </Text>
         </Flex>
       </Box>

@@ -5,14 +5,21 @@ import { PRIVATES } from './privates';
 import { PUBLICS } from './publics';
 
 export function AppRoutes() {
+  const publicRoutes = Object.entries(PUBLICS).map(([key, { element, path }]) => (
+    <Route key={key} element={element} path={path} />
+  ));
+  const privateRoutes = Object.entries(PRIVATES).map(([key, { element, path }]) => (
+    <Route key={key} element={element} path={path} />
+  ));
+
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<PublicRoutes />}>
-          {Object.entries(PUBLICS).map(([key, props]) => <Route key={key} {...props} />)}
+          {publicRoutes}
         </Route>
         <Route element={<PrivateRoutes />}>
-          {Object.entries(PRIVATES).map(([key, props]) => <Route key={key} {...props} />)}
+          {privateRoutes}
         </Route>
       </Routes>
     </BrowserRouter>

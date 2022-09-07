@@ -16,7 +16,7 @@ export function LoginTemplate() {
   const onSubmit = (data: FieldValues) => {
     console.log(data);
 
-    navigate('/dashboard');
+    navigate('/home');
   };
 
   return (
@@ -38,7 +38,7 @@ export function LoginTemplate() {
             Não possui uma conta?
           </Text>
           <Text cursor="pointer" fontWeight="bold" color="orange.500" onClick={() => navigate('/register')}>
-            Cadastre-se aqui
+            Cadastrar
           </Text>
         </Flex>
       </Flex>
