@@ -1,4 +1,5 @@
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { theme } from 'assets/styles/theme';
 import { AppRoutes } from 'routes';
 
 function App() {

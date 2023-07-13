@@ -1,37 +1,71 @@
 import { Tabs } from 'components/commons/disclosure/Tabs';
 import { Text } from 'components/commons/typography/Text';
-import { RegisterUser } from 'components/others/forms/RegisterUser';
 import { Dispatch, SetStateAction } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { StepsOptions } from '.';
+import { FieldType, FormBuilder } from 'components/others/forms/FormBuilder';
+import { Hash as HashIcon } from 'tabler-icons-react';
 
 type Props = {
   setStep: Dispatch<SetStateAction<StepsOptions>>
 }
 
-const USERS_TYPE = {
-  owner: {
-    name: 'businessName',
-    tabLabel: 'Proprietário',
-    inputLabel: 'Nome da banca',
-    description:
-      'Identifique o nome da sua banca para iniciar o registro em nossa plataforma.',
-  },
+const FORM_FIEDSET = {
   employee: {
-    name: 'employeeCode',
     tabLabel: 'Funcionário',
-    inputLabel: 'Código do funcionário',
-    description:
-      'Insira abaixo o código gerado pelo proprietário da banca onde você trabalha.',
+    formData: {
+      description: 'Insira abaixo o código da banca.',
+      content: {
+        fieldset: [
+          {
+            name: 'shedCode',
+            type: FieldType.Input,
+            inputSettings: {
+              label: 'Código da banca',
+              iconLeft: <HashIcon size={20} strokeWidth={2} color={'#C5CEE0'} />,
+            },
+            fieldSettings: {
+              isRequired: true,
+            },
+          },
+        ],
+        submit: {
+          label: 'Próximo',
+        },  
+      },
+    }
+  },
+  owner: {
+    tabLabel: 'Proprietário',
+    formData: {
+      description: 'Identifique o nome da sua banca para iniciar o registro em nossa plataforma.',
+      content: {
+        fieldset: [
+          {
+            name: 'shedName',
+            type: FieldType.Input,
+            inputSettings: {
+              label: 'Nome da banca',
+            },
+            fieldSettings: {
+              isRequired: true,
+            },
+          },
+        ],
+        submit: {
+          label: 'Próximo',
+        },  
+      },
+    }
   },
 };
 
 export function FirstStep({ setStep }: Props) {
-  const usersType = Object.entries(USERS_TYPE);
+  const formFieldset = Object.entries(FORM_FIEDSET);
 
   const onSubmit = (data: FieldValues) => {
     console.log(data);
-    setStep(StepsOptions.AccessData);
+    setStep(StepsOptions.Credentials);
   };
 
   return (
@@ -40,9 +74,9 @@ export function FirstStep({ setStep }: Props) {
         Você é
       </Text>
       <Tabs
-        tabsName={usersType.map(([_, value]) => value.tabLabel)}
-        tabsPanel={usersType.map(([key, props]) => (
-          <RegisterUser
+        tabsName={formFieldset.map(([_, value]) => value.tabLabel)}
+        tabsPanel={formFieldset.map(([key, props]) => (
+          <FormBuilder
             key={key}
             onSubmit={onSubmit}
             {...props}

@@ -4,26 +4,81 @@ import { Text } from 'components/commons/typography/Text';
 import { Title } from 'components/commons/typography/Title';
 import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AccessData } from './accessData';
 import { FirstStep } from './firstStep';
+import { FieldType, FormBuilder, FormData } from 'components/others/forms/FormBuilder';
 
 export enum StepsOptions {
-  First = 'first',
-  AccessData = 'accessData',
+  FirstStep = 'firstStep',
+  Credentials = 'credentials',
 }
 
 export function RegisterTemplate() {
-  const [step, setStep] = useState<StepsOptions>(StepsOptions.First);
+  const [step, setStep] = useState<StepsOptions>(StepsOptions.FirstStep);
   const navigate = useNavigate();
 
-  const literalSteps: { [key in StepsOptions]: ReactNode } = {
-    first: <FirstStep setStep={setStep} />,
-    accessData: <AccessData />,
+  const onSubmit = (data: any) => {
+    console.log(data);
+  }
+  
+  const formData: FormData = {
+    description: 'Preencha os campos abaixo para criar sua conta',
+    content: {
+      fieldset: [
+        {
+          name: 'name',
+          type: FieldType.Input,
+          inputSettings: {
+            label: 'Nome',
+          },
+          fieldSettings: {
+            isRequired: true,
+          },
+        },
+        {
+          name: 'phone',
+          type: FieldType.Input,
+          inputSettings: {
+            label: 'Número de telefone', 
+          },
+          fieldSettings: {
+            isRequired: true,
+          },
+        },
+        {
+          name: 'password',
+          type: FieldType.Password,
+          inputSettings: {
+            label: 'Senha',
+          },
+          fieldSettings: {
+            isRequired: true,
+          },
+        },
+        {
+          name: 'passwordConfirmation',
+          type: FieldType.Password,
+          inputSettings: {
+            label: 'Confirme sua senha',
+          },
+          fieldSettings: {
+            isRequired: true,
+          },
+        },
+      ],
+      submit: {
+        label: 'Cadastrar',
+      },
+    },
   };
 
   const literalTitles: { [key in StepsOptions]: string } = {
-    first: 'Cadastre-se no Web Paiol',
-    accessData: 'Dados de acesso',
+    firstStep: 'Cadastre-se no Web Paiol',
+    credentials: 'Dados de acesso',
+  };
+
+  const literalSteps: { [key in StepsOptions]: ReactNode } = {
+    firstStep: <FirstStep setStep={setStep} />,
+    credentials: <FormBuilder onSubmit={onSubmit} formData={formData} />,
   };
 
   return (
@@ -41,7 +96,7 @@ export function RegisterTemplate() {
           <Text mx="auto">
             Já possui uma conta?
           </Text>
-          <Text cursor="pointer" mx="auto" fontWeight="bold" color="orange.500" onClick={() => navigate('/login')}>
+          <Text cursor="pointer" mx="auto" fontWeight="bold" color="brand.100" onClick={() => navigate('/login')}>
             Fazer login
           </Text>
         </Flex>

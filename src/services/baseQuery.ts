@@ -4,7 +4,7 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/dist/query';
-import { BASE_URL } from 'constants/config';
+import { BASE_URL } from 'constants/environments';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,

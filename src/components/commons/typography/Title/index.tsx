@@ -21,7 +21,7 @@ export function Title({
 }: Props) {
   const literalProps: LiteralProps = {
     primary: {
-      color: 'orange.500',
+      color: 'text.100',
       size: 'md',
       mx: 'auto',
     },
