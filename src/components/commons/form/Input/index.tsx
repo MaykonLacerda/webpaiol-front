@@ -6,13 +6,13 @@ import {
   InputGroup as $InputGroup,
   InputLeftElement as $InputLeftElement,
 } from '@chakra-ui/react';
-import { FieldPath, UseFormRegister, FieldValues, Controller, ControllerRenderProps } from 'react-hook-form';
+import { FieldPath, FieldValues, Controller, ControllerRenderProps } from 'react-hook-form';
 import { Flex } from 'components/commons/layout/Flex';
 import { Text } from 'components/commons/typography/Text';
-import { INFO } from 'constants/messages';
+import { INFO } from 'common/constants/messages';
 import { FormControl } from '../FormControl';
 
-export type Props = $InputProps & {
+export type InputProps = $InputProps & {
   label?: string;
   name: FieldPath<FieldValues>;
   error?: string;
@@ -54,7 +54,7 @@ export function Input({
   control,
   mask,
   ...props
-}: Props) {
+}: InputProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, field: ControllerRenderProps<FieldValues, string>) => {
     if (mask) {
       event.target.value = mask(event.target.value);

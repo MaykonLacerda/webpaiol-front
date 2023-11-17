@@ -1,7 +1,7 @@
 import { FormControl as $FormControl, FormControlProps as $FormControlProps } from '@chakra-ui/react';
 
-type Props = $FormControlProps;
+export type FormControlProps = $FormControlProps;
 
-export function FormControl({ children, ...props }: Props) {
+export function FormControl({ children, ...props }: FormControlProps) {
   return <$FormControl {...props}>{children}</$FormControl>;
 }

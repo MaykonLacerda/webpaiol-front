@@ -1,6 +1,5 @@
-import { PrivateRoutes } from 'components/others/route/PrivateRoutes';
-import { PublicRoutes } from 'components/others/route/PublicRoutes';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { PrivateRoutes, PublicRoutes } from 'components';
 import { PRIVATES } from './privates';
 import { PUBLICS } from './publics';
 

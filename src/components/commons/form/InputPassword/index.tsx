@@ -1,11 +1,11 @@
 import { InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
-import { Input, Props as BaseInputProps } from '../Input';
+import { Input, InputProps } from '../Input';
 
-type Props = BaseInputProps;
+export type InputPasswordProps = InputProps;
 
-export function InputPassword(props: Props) {
+export function InputPassword(props: InputPasswordProps) {
   const [show, setShow] = useState(false);
 
   const handleClick = () => {

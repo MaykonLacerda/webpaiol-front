@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-export type Props = Omit<$TabsProps, 'children'> & {
+export type TabProps = Omit<$TabsProps, 'children'> & {
   tabsName: string[];
   tabsNameProps?: $TabProps;
   tabsPanel: ReactNode[];
@@ -17,14 +17,14 @@ export type Props = Omit<$TabsProps, 'children'> & {
 
 export function Tabs({
   tabsName, tabsNameProps, tabsPanel, ...props
-}: Props) {
+}: TabProps) {
   return (
     <$Tabs {...props}>
       <$TabList mb="1em">
         {tabsName.map((name) => <$Tab {...tabsNameProps}>{name}</$Tab>)}
       </$TabList>
       <$TabPanels>
-        {tabsPanel.map((element) => <$TabPanel>{element}</$TabPanel>)}
+        {tabsPanel.map((element) => <$TabPanel p="0">{element}</$TabPanel>)}
       </$TabPanels>
     </$Tabs>
   );

@@ -14,12 +14,12 @@ export type MenuItem = {
   props: $MenuItemProps;
 }
 
-export type Props = Omit<$MenuProps, 'children'> & {
+export type MenuProps = Omit<$MenuProps, 'children'> & {
   menuIcon: ReactNode;
   items: MenuItem[];
 };
 
-export function Menu({ menuIcon, items, ...props }: Props) {
+export function Menu({ menuIcon, items, ...props }: MenuProps) {
   return (
     <$Menu {...props}>
       <$MenuButton

@@ -1,4 +1,4 @@
-import { Heading, Props as HeadingProps } from '../Heading';
+import { Heading, HeadingProps } from '../Heading';
 
 enum TitleVariants {
   Primary = 'primary',
@@ -10,7 +10,7 @@ type LiteralProps = {
   };
 };
 
-export type Props = Omit<HeadingProps, 'variant'> & {
+export type TitleProps = Omit<HeadingProps, 'variant'> & {
   variant?: TitleVariants;
 };
 
@@ -18,7 +18,7 @@ export function Title({
   children,
   variant = TitleVariants.Primary,
   ...props
-}: Props) {
+}: TitleProps) {
   const literalProps: LiteralProps = {
     primary: {
       color: 'text.100',

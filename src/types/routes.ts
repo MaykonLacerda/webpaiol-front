@@ -5,7 +5,7 @@ export type IRoutes = {
   [key in string]: PathRouteProps & {
     id: string;
     rules?: string[];
-    title: string;
+    title?: string;
     menu?: {
       icon: ReactElement;
     }

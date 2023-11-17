@@ -1,5 +1,5 @@
-import { baseApi } from "services";
-import { AuthDTO, AuthResponse } from "types/auth";
+import { baseApi } from 'services';
+import { AuthDTO, AuthResponse } from 'types/auth';
 
 const authService = baseApi.injectEndpoints({
   endpoints: (builder) => ({

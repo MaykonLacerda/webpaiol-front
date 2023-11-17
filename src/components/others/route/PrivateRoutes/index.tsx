@@ -1,10 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-export type Props = {
-  children: JSX.Element;
-}
-
-export function PrivateRoutes() {
+export const PrivateRoutes = () => {
   const location = useLocation();
   const isAuthenticated = true;
 

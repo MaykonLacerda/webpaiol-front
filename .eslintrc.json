@@ -51,6 +51,7 @@
           "some": ["nesting", "id"]
         }
       }],
+      "max-len": "off",
       "no-useless-escape": "off",
       "no-param-reassign": ["error", { "props": false }],
       "react/require-default-props": [0],

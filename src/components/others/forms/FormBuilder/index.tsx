@@ -1,17 +1,12 @@
-import { useForm, FieldValues, UseFormRegister } from 'react-hook-form';
-import { Button } from 'components/commons/form/Button';
-import { Input } from 'components/commons/form/Input';
-import { Text } from 'components/commons/typography/Text';
-import { Box } from 'components/commons/layout/Box';
-import { Title } from 'components/commons/typography/Title';
-import { Stack } from 'components/commons/layout/Stack';
-import { Flex } from 'components/commons/layout/Flex';
-import { InputPassword } from 'components/commons/form/InputPassword';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { ZodObject } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ZodType } from 'zod';
+import {
+  Box, Button, Input, InputPassword, Stack, Text, Title,
+} from 'components';
 
-export enum FieldType {
+export enum FieldTypeEnum {
   Input = 'input',
   Password = 'password',
   // Select = 'select',
@@ -25,12 +20,13 @@ export enum FieldType {
 
 export type FormFieldset = {
   name: string;
-  type: FieldType;
+  type: FieldTypeEnum;
   inputSettings: {
     placeholder?: string;
     label: string;
     iconLeft?: React.ReactNode;
     mask?: (value: string) => string;
+    defaultValue?: string;
   },
   fieldSettings?: {
     isRequired?: boolean;
@@ -45,7 +41,7 @@ export type FormData = {
   description?: string;
   content: {
     fieldset: FormFieldset[];
-    schemaValidation?: ZodObject<FieldValues>;
+    schemaValidation?: ZodType<any, any, any>;
     submit: {
       label: string;
       disableWhenInvalid?: boolean;
@@ -53,28 +49,32 @@ export type FormData = {
   }
 }
 
-export type Props = {
+export type FormBuilderProps = {
   onSubmit: (data: any) => void;
   formData: FormData;
-  isLoading?: boolean;
   footter?: React.ReactNode;
+  isSubmitting?: boolean;
 }
 
-const generateField = (type: FieldType, name: string, control: any, inputSettings: FormFieldset['inputSettings'], fieldSettings: FormFieldset['fieldSettings'], error?: string) => {
-  const literalField: { [key in FieldType]: React.ReactNode } = {
-    [FieldType.Input]: <Input error={error} isRequired={fieldSettings?.isRequired} name={name} control={control} {...inputSettings} />,
-    [FieldType.Password]: <InputPassword error={error} isRequired={fieldSettings?.isRequired} name={name} control={control} label={inputSettings.label} placeholder={inputSettings?.placeholder} type="password" iconLeft={inputSettings?.iconLeft} />,
+const generateField = (type: FieldTypeEnum, name: string, control: any, inputSettings: FormFieldset['inputSettings'], fieldSettings: FormFieldset['fieldSettings'], error?: string) => {
+  const literalField: { [key in FieldTypeEnum]: React.ReactNode } = {
+    [FieldTypeEnum.Input]: <Input error={error} isRequired={fieldSettings?.isRequired} name={name} control={control} {...inputSettings} />,
+    [FieldTypeEnum.Password]: <InputPassword error={error} isRequired={fieldSettings?.isRequired} name={name} control={control} label={inputSettings.label} placeholder={inputSettings?.placeholder} type="password" iconLeft={inputSettings?.iconLeft} />,
   };
 
   return literalField[type];
-}
+};
 
 export function FormBuilder({
-  onSubmit, formData, isLoading, footter,
-}: Props) {
+  onSubmit, formData, footter, isSubmitting,
+}: FormBuilderProps) {
   const { control, handleSubmit, formState: { isValid, errors } } = useForm({
     resolver: formData.content?.schemaValidation ? zodResolver(formData.content?.schemaValidation) : undefined,
     mode: 'onChange',
+    defaultValues: formData.content?.fieldset.reduce((acc, field) => {
+      acc[field.name] = field.inputSettings.defaultValue ?? '';
+      return acc;
+    }, {} as any),
   });
   const content = formData?.content;
   const disableWhenInvalid = content?.submit.disableWhenInvalid ?? true;
@@ -87,13 +87,13 @@ export function FormBuilder({
     <>
       {formData?.title ? (
         <Box>
-          <Title textAlign='center' mb="4">
+          <Title textAlign="center" mb="4">
             {formData?.title}
           </Title>
         </Box>
       ) : null}
       {formData?.description ? (
-        <Text mx="auto" textAlign="center" w="100%">
+        <Text mx="auto" textAlign="center" w="full">
           {formData?.description}
         </Text>
       ) : null}
@@ -104,13 +104,13 @@ export function FormBuilder({
               {generateField(field.type, field.name, control, field.inputSettings, field.fieldSettings, errors[field.name]?.message as string)}
             </Box>
           ))}
-          <Button type="submit" disabled={disableWhenInvalid ? !isValid : undefined} mt="4" w="full" isLoading={isLoading}>
+          <Button type="submit" disabled={disableWhenInvalid ? !isValid : undefined} mt="4" w="full" isLoading={isSubmitting}>
             {content?.submit.label}
           </Button>
         </Stack>
       </form>
       {footter ? (
-        <Box>
+        <Box w="full">
           {footter}
         </Box>
       ) : null}

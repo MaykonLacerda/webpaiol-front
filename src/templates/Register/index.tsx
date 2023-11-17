@@ -1,106 +1,64 @@
-import { Box } from 'components/commons/layout/Box';
-import { Flex } from 'components/commons/layout/Flex';
-import { Text } from 'components/commons/typography/Text';
-import { Title } from 'components/commons/typography/Title';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
+import { FieldValues } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { FirstStep } from './firstStep';
-import { FieldType, FormBuilder, FormData } from 'components/others/forms/FormBuilder';
-
-export enum StepsOptions {
-  FirstStep = 'firstStep',
-  Credentials = 'credentials',
-}
+import {
+  Box, FormBuilder, LoginFooter, Tabs, Text,
+} from 'components';
+import { UserTypeEnum } from 'types/user';
+import { formData } from './formData';
 
 export function RegisterTemplate() {
-  const [step, setStep] = useState<StepsOptions>(StepsOptions.FirstStep);
   const navigate = useNavigate();
+  const [tabIndex, setTabIndex] = useState(0);
+  const formFieldset = Object.entries(formData);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  }
-  
-  const formData: FormData = {
-    description: 'Preencha os campos abaixo para criar sua conta',
-    content: {
-      fieldset: [
-        {
-          name: 'name',
-          type: FieldType.Input,
-          inputSettings: {
-            label: 'Nome',
-          },
-          fieldSettings: {
-            isRequired: true,
-          },
-        },
-        {
-          name: 'phone',
-          type: FieldType.Input,
-          inputSettings: {
-            label: 'Número de telefone', 
-          },
-          fieldSettings: {
-            isRequired: true,
-          },
-        },
-        {
-          name: 'password',
-          type: FieldType.Password,
-          inputSettings: {
-            label: 'Senha',
-          },
-          fieldSettings: {
-            isRequired: true,
-          },
-        },
-        {
-          name: 'passwordConfirmation',
-          type: FieldType.Password,
-          inputSettings: {
-            label: 'Confirme sua senha',
-          },
-          fieldSettings: {
-            isRequired: true,
-          },
-        },
-      ],
-      submit: {
-        label: 'Cadastrar',
-      },
-    },
-  };
+  const onSubmit = (data: FieldValues) => {
+    const userType = formFieldset[tabIndex][0] as UserTypeEnum;
 
-  const literalTitles: { [key in StepsOptions]: string } = {
-    firstStep: 'Cadastre-se no Web Paiol',
-    credentials: 'Dados de acesso',
-  };
+    const state = {
+      ...data,
+      userType,
+    };
 
-  const literalSteps: { [key in StepsOptions]: ReactNode } = {
-    firstStep: <FirstStep setStep={setStep} />,
-    credentials: <FormBuilder onSubmit={onSubmit} formData={formData} />,
+    navigate('credentials', { state });
   };
 
   return (
-    <Flex direction="column" align="center" justify="space-between" w="100%">
-      <Box>
-        <Title mb="4">
-          {literalTitles[step]}
-        </Title>
-      </Box>
-      <Box w="100%">
-        {literalSteps[step]}
-      </Box>
-      <Box>
-        <Flex mt="12" gap="3">
-          <Text mx="auto">
-            Já possui uma conta?
-          </Text>
-          <Text cursor="pointer" mx="auto" fontWeight="bold" color="brand.100" onClick={() => navigate('/login')}>
-            Fazer login
-          </Text>
-        </Flex>
-      </Box>
-    </Flex>
+    <Box w="100%">
+      <Text mb="3" textAlign="center">
+        Você é
+      </Text>
+      <Tabs
+        onChange={(index) => setTabIndex(index)}
+        tabsName={formFieldset.map(([_, value]) => value.tabLabel)}
+        tabsPanel={formFieldset.map(([key, props]) => (
+          <>
+            <FormBuilder key={key} onSubmit={onSubmit} {...props} />
+            {tabIndex === 0 ? (
+              <>
+                <Text fontSize="sm" mt="5" textAlign="center">
+                  Ou
+                </Text>
+                <Text
+                  onClick={() => navigate('credentials', { state: { userType: UserTypeEnum.EMPLOYEE } })}
+                  mt="3"
+                  fontSize="sm"
+                  textAlign="center"
+                  color="brand.700"
+                  fontWeight={600}
+                  cursor="pointer"
+                  decoration="underline"
+                >
+                  Se cadastrar sem o código
+                </Text>
+              </>
+            ) : null}
+            <LoginFooter />
+          </>
+        ))}
+        isFitted
+        variant="soft-rounded"
+      />
+    </Box>
   );
 }

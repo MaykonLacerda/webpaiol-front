@@ -1,7 +1,7 @@
 import { Stack as $Stack, StackProps as $StackProps } from '@chakra-ui/react';
 
-type Props = $StackProps;
+export type StackProps = $StackProps;
 
-export function Stack({ children, ...props }: Props) {
+export function Stack({ children, ...props }: StackProps) {
   return <$Stack {...props}>{children}</$Stack>;
 }
